@@ -28,6 +28,7 @@ body {
     color: var(--text-primary);
     overflow: hidden;
     height: 100vh;
+    height: 100dvh;
     display: flex;
 }
 
@@ -343,3 +344,115 @@ input:focus {
 ::-webkit-scrollbar-thumb:hover {
     background: #484F58;
 }
+
+/* ===== Hamburger / Mobile Sidebar Toggle ===== */
+.sidebar-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    color: var(--text-primary);
+    border-radius: 8px;
+    transition: background var(--transition-speed);
+}
+
+.sidebar-toggle:hover {
+    background: var(--surface-hover);
+}
+
+.sidebar-toggle svg {
+    display: block;
+    width: 22px;
+    height: 22px;
+    stroke: currentColor;
+}
+
+/* Overlay for mobile sidebar */
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 9;
+}
+
+.sidebar-overlay.active {
+    display: block;
+}
+
+/* ===== Responsive: Tablet & Mobile (≤ 768 px) ===== */
+@media (max-width: 768px) {
+    body {
+        overflow: hidden;
+    }
+
+    /* Show hamburger button */
+    .sidebar-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Sidebar slides in from the left as an overlay */
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 260px;
+        z-index: 10;
+        transform: translateX(-100%);
+        transition: transform var(--transition-speed) ease;
+    }
+
+    .sidebar.open {
+        transform: translateX(0);
+    }
+
+    /* Main content takes full width */
+    .main-container {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .main-header {
+        padding: 0 16px;
+        gap: 12px;
+    }
+
+    .chat-window {
+        padding: 16px;
+        gap: 16px;
+    }
+
+    .message {
+        max-width: 95%;
+    }
+
+    .input-container {
+        padding: 12px 16px 20px;
+    }
+
+    .references-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ===== Responsive: Small Mobile (≤ 480 px) ===== */
+@media (max-width: 480px) {
+    .logo-text {
+        font-size: 1rem;
+    }
+
+    .message-bubble {
+        font-size: 0.875rem;
+        padding: 12px 16px;
+    }
+
+    input {
+        font-size: 0.9375rem;
+        padding: 10px 14px;
+    }
+}
+
