@@ -18,8 +18,12 @@ class AuthorizationError(Exception):
 
 def generate_token(user_id: str, email: str) -> str:
     settings = get_settings()
-    # Use fallback only for dev if not set
-    secret = settings.jwt_secret or "default_secret_that_should_be_changed"
+    secret = settings.jwt_secret
+    if not secret:
+        raise ValueError(
+            "DEVPULE_JWT_SECRET environment variable is not set. "
+            "Set a strong random secret in your .env file."
+        )
     return jwt.encode(
         {"sub": user_id, "email": email},
         secret,

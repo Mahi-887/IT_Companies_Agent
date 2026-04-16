@@ -4,15 +4,29 @@ document.addEventListener('DOMContentLoaded', () => {
     const sendBtn = document.getElementById('send-btn');
     const activeRepoName = document.getElementById('active-repo-name');
     const repoList = document.getElementById('repo-list');
+    const sidebarToggle = document.getElementById('sidebar-toggle');
+    const sidebarOverlay = document.getElementById('sidebar-overlay');
+    const sidebar = document.querySelector('.sidebar');
+
+    // Mobile sidebar toggle
+    function openSidebar() {
+        sidebar.classList.add('open');
+        sidebarOverlay.classList.add('active');
+    }
+    function closeSidebar() {
+        sidebar.classList.remove('open');
+        sidebarOverlay.classList.remove('active');
+    }
+    if (sidebarToggle) {
+        sidebarToggle.addEventListener('click', () => {
+            sidebar.classList.contains('open') ? closeSidebar() : openSidebar();
+        });
+    }
+    if (sidebarOverlay) {
+        sidebarOverlay.addEventListener('click', closeSidebar);
+    }
 
     const API_BASE = '/api/v1';
-    // Dummy JWT for demo purposes (signed with 'default_secret_that_should_be_changed')
-    // header: {"alg": "HS256", "typ": "JWT"}
-    // payload: {"sub": "user_123", "email": "dev@example.com"}
-    const DUMMY_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyXzEyMyIsImVtYWlsIjoiZGV2QGV4YW1wbGUuY29tIn0.t-fN_T5e_Z-X_X_X_X_X_X_X_X_X_X_X_X_X_X_X_X_X'; 
-    // Wait, I should probably not hardcode a broken token. 
-    // I'll use a simpler approach: I'll add a 'guest' mode to the backend or just provide a helper to get a token.
-    // For now, I'll use a token that I'll generate in a moment or just assume one exists.
 
     let currentRepoId = null;
 
@@ -109,6 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     currentRepoId = repo.id;
                     activeRepoName.textContent = repo.name;
                     addMessage(`Switched context to **${repo.name}**. How can I help with this repository?`, false);
+                    closeSidebar();
                 };
                 repoList.appendChild(item);
             });
