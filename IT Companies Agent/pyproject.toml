@@ -21,6 +21,9 @@ dependencies = [
   "chromadb>=0.4.24",
 ]
 
+[tool.setuptools.packages.find]
+where = ["]
+include = ["app*", "ai_workflow*"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-
